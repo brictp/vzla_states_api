@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        background-color: aliceblue;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      h1,
+      h3,
+      p,
+      a,
+      div,
+      h4 {
+        text-align: center;
+      }
+
+      div {
+        display: block;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Welcum GIL</h1>
+    <h3>
+      Esta es una api donde puedes hacer peticiones para ver informacion acerca
+      de los estados y municipios venezolanos
+    </h3>
+    <h4>
+      La primera direccion se trata de los datos generales donde muestra la
+      informacion de los estados, municipios y sus parroquias
+    </h4>
+    <div><a href="/venezuela">Todo</a></div>
+    <h4>
+      La segunda direccion se trata de una lista con los nombres de los estados
+    </h4>
+    <div><a href="/venezuela/estados">estados</a></div>
+    <h4>
+      La tercera direccion se trata de una lista con los nombres de los
+      municipios
+    </h4>
+    <div><a href="/venezuela/municipios">municipios</a></div>
+    <h4>
+      En general esas son las listas que puedes hacer peticiones, sin embargo si
+      deseas ver informacion de un estado en especifico puedes hacerlo
+      accediendo a la ruta {port}/venezuela/{estado}
+    </h4>
+    <div><a href="/venezuela/zulia">zulia</a></div>
+    <h4>
+      Tambien puedes tener una lista de los municipios del estado que buscas
+      agregando la ruta /municipios
+    </h4>
+    <div><a href="/venezuela/zulia/municipios">/zulia/municipios</a></div>
+    <h4>
+      Por ultimo para acceder a los distritos necesitas se mas preciso y
+      accerder solo desde la ruta /venezuela/{estado}/{municipio}
+    </h4>
+    <div>
+      <a href="/venezuela/zulia/maracaibo">/venezuela/zulia/maracaibo</a>
+    </div>
+    <h4>Para ver estados/municipios con espacios de por medio debes usar un '-' como separador</h4>
+      <div><a href="/venezuela/delta-amacuro/antonio-diaz">/venezuela/delta-amacuro/antonio-diaz</a></div>
+  </body>
+</html>
