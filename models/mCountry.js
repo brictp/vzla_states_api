@@ -12,8 +12,8 @@ export class mCountry extends Country {
       );
 
       return country;
-    } catch (error) {
-      res.json({ error: err.message });
+    } catch (err) {
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -23,9 +23,10 @@ export class mCountry extends Country {
         { nombre_estado: name },
         { _id: 0, __v: 0, ["municipios._id"]: 0, ID: 0 }
       );
+
       return data;
     } catch (err) {
-      res.json({ error: err.message });
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -34,12 +35,11 @@ export class mCountry extends Country {
       let data = await Country.find({}, { nombre_estado: 1, _id: 0 });
 
       const arrTotal = [];
-
       data.map((el) => arrTotal.push(el.nombre_estado));
 
       return arrTotal;
     } catch (err) {
-      res.json({ error: err.message });
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -56,12 +56,11 @@ export class mCountry extends Country {
 
       return arrTotal;
     } catch (err) {
-      res.json({ error: err.message });
+      throw { status: 500, error: err.message };
     }
   }
 
   static async getMunicipality(name) {
-
     try {
       let municipality = await Country.find(
         { nombre_estado: name },
@@ -73,7 +72,7 @@ export class mCountry extends Country {
       );
       return arrtotal[0];
     } catch (err) {
-      res.json({ error: err.message });
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -81,11 +80,13 @@ export class mCountry extends Country {
     try {
       let state = await this.getState(stateName);
 
-      let muni = state[0].municipios.find((el) => el.municipio === municipalityName);
-      
+      let muni = state[0].municipios.find(
+        (el) => el.municipio === municipalityName
+      );
+
       return muni.parroquias;
-    } catch (error) {
-      res.json({ error: error.message });
+    } catch (err) {
+      throw { status: 500, error: err.message };
     }
   }
   static async create(data) {
@@ -93,7 +94,7 @@ export class mCountry extends Country {
       let newState = new Country(data);
       await newState.save();
     } catch (err) {
-      throw { status: 500, message: "Error to create task", details: err };
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -101,8 +102,8 @@ export class mCountry extends Country {
     try {
       await Country.findByIdAndUpdate(id, data);
       res.json({ ok: "objeto actualizado" });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      throw { status: 500, error: err.message };
     }
   }
 
@@ -110,8 +111,8 @@ export class mCountry extends Country {
     let id = req.params.id;
     try {
       await Country.findOneAndDelete({ ID: id });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      throw { status: 500, error: err.message };
     }
   }
 }

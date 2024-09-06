@@ -14,7 +14,8 @@
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
           sans-serif;
-        background-color: aliceblue;
+          font-size: 25px;
+        background-color: rgb(193, 215, 235);
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -24,11 +25,29 @@
       h1,
       h3,
       p,
-      a,
-      div,
       h4 {
         text-align: center;
       }
+
+      section{
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      section a {
+        margin-top: 25px;
+        text-decoration: none;
+        color: rgb(185, 82, 178);
+      }
+
+      section a:hover {
+        color: rgb(173, 132, 171);
+      }
+
+      
 
       div {
         display: block;
@@ -45,44 +64,11 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Welcum GIL</h1>
-    <h3>
-      Esta es una api donde puedes hacer peticiones para ver informacion acerca
-      de los estados y municipios venezolanos
-    </h3>
-    <h4>
-      La primera direccion se trata de los datos generales donde muestra la
-      informacion de los estados, municipios y sus parroquias
-    </h4>
-    <div><a href="/venezuela">Todo</a></div>
-    <h4>
-      La segunda direccion se trata de una lista con los nombres de los estados
-    </h4>
-    <div><a href="/venezuela/estados">estados</a></div>
-    <h4>
-      La tercera direccion se trata de una lista con los nombres de los
-      municipios
-    </h4>
-    <div><a href="/venezuela/municipios">municipios</a></div>
-    <h4>
-      En general esas son las listas que puedes hacer peticiones, sin embargo si
-      deseas ver informacion de un estado en especifico puedes hacerlo
-      accediendo a la ruta {port}/venezuela/{estado}
-    </h4>
-    <div><a href="/venezuela/zulia">zulia</a></div>
-    <h4>
-      Tambien puedes tener una lista de los municipios del estado que buscas
-      agregando la ruta /municipios
-    </h4>
-    <div><a href="/venezuela/zulia/municipios">/zulia/municipios</a></div>
-    <h4>
-      Por ultimo para acceder a los distritos necesitas se mas preciso y
-      accerder solo desde la ruta /venezuela/{estado}/{municipio}
-    </h4>
-    <div>
-      <a href="/venezuela/zulia/maracaibo">/venezuela/zulia/maracaibo</a>
-    </div>
-    <h4>Para ver estados/municipios con espacios de por medio debes usar un '-' como separador</h4>
-      <div><a href="/venezuela/delta-amacuro/antonio-diaz">/venezuela/delta-amacuro/antonio-diaz</a></div>
+    <section>
+      <h1>HOLA! Bienvenido a esta API</h1>
+      <h3>Aqui encontraras informacion acerca de los estados de Venezuela</h3>
+      <p>Para ver la documentacion y aprender como usar la API te inivito a ir al siguiente enlace</p>
+      <a href="/docs">Doc</a>
+    </section>
   </body>
 </html>

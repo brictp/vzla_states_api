@@ -1,0 +1,96 @@
+{
+  "info": {
+    "title": "vzla states api",
+    "description": "api para ver informacion de los estados y municipios venezolanos",
+    "version": "1.0.0",
+    "contact": "eabriceno.21@gmail.com"
+  },
+  "tags": [
+    {
+      "name": "states",
+      "description": "api para ver informacion de los estados y municipios venezolanos"
+    }
+  ],
+  "paths": {
+    "/venezuela": {
+      "get": {
+        "tags": ["states"],
+        "summary": "Ver todo",
+        "description": "Aca ves toda la informacion relacionada a la db",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/state"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "422": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "state": {
+        "type": "object",
+        "properties": {
+          "nombre_estado": {
+            "type": "string",
+            "example": "Amazonas"
+          },
+          "capial_estado": {
+            "type": "string",
+            "example": "Leticia"
+          },
+          "ID": {
+            "type": "number",
+            "example": 1
+          },
+          "municipios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/municipio"
+            },
+            "example": [
+              {
+                "municipio": "Puerto Ayacucho"
+              }
+            ]
+          }
+        }
+      },
+      "municipio": {
+        "type": "object",
+        "properties": {
+          "municipio": {
+            "type": "string",
+            "example": "Puerto Ayacucho"
+          },
+          "capital": {
+            "type": "string",
+            "example": "Puerto Ayacucho"
+          },
+          "parroquias": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "El Corozal"
+            }
+          }
+        }
+      }
+    }
+  }
+}

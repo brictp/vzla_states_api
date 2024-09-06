@@ -4,16 +4,22 @@ import cors from "cors";
 import morgan from "morgan";
 import routesCountry from "./routes/rCountry.js";
 import connectDB from "./config/db.js";
-import createHttpError from "http-errors";
+import swaggerUi from "swagger-ui-express";
+import swaggerFile from "./swagger/swagger-output.json" assert { type: "json" };
 
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.set("view engine", "ejs");
 
-app.use(cors());
+app.use(
+  cors({
+    accessControlAllowOrigin: "*",
+  })
+);
+
 app.use(morgan("dev"));
 app.use(express.json());
 
@@ -22,11 +28,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/venezuela", routesCountry);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.use((req, res, next) => {
-  res.status(404).send(createHttpError(404, "Ruta no encontrada"));
+app.listen(PORT, () => {
+  console.log(`Iniciando express desde http://localhost:${PORT}`);
 });
-
-app.listen(3000, () =>
-  console.log(`Iniciando express desde http://localhost:${PORT}`)
-);

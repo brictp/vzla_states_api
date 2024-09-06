@@ -1,0 +1,243 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Vzla states API",
+    "description": "API para ver informacion de los estados y municipios venezolanos"
+  },
+  "basePath": "/",
+  "schemes": ["https", "http"],
+  "tags": ["estados", "municipios"],
+  "paths": {
+    "/venezuela/": {
+      "get": {
+        "tags": ["estados"],
+        "summary": "Ver todo",
+        "description": "Muestra una lista con todos los municipios de todos los estados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "$ref": "#/components/schemas/StateOutputSchema"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/venezuela/estados": {
+      "get": {
+        "tags": ["estados"],
+        "summary": "Ver lista de estados",
+        "description": "Muestra una lista de todos los estados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/venezuela/municipios": {
+      "get": {
+        "tags": ["municipios"],
+        "summary": "Ver lista de municipios",
+        "description": "Muestra una lista con todos los municipios de todos los estados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/venezuela/{stateName}": {
+      "get": {
+        "tags": ["estados"],
+        "summary": "Ver un estado",
+        "description": "Muestra informacion acerca de un estado en especifico",
+        "parameters": [
+          {
+            "name": "stateName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "$ref": "#/components/schemas/StateOutputSchema"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/venezuela/{stateName}/municipios": {
+      "get": {
+        "tags": ["municipios"],
+        "summary": "Ver lista de municipios",
+        "description": "Muestra una lista de los municipios de un estado determinado",
+        "parameters": [
+          {
+            "name": "stateName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/venezuela/{stateName}/{municipalityName}": {
+      "get": {
+        "tags": ["municipios"],
+        "summary": "Ver Distritos",
+        "description": "Muestra una lista de distritos de un municipio determinado",
+        "parameters": [
+          {
+            "name": "stateName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "municipalityName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "State": {
+        "type": "object",
+        "properties": {
+          "nombre_estado": {
+            "type": "string"
+          },
+          "capital_estado": {
+            "type": "string"
+          },
+          "ID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "municipios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/municipio"
+            }
+          }
+        }
+      },
+      "municipio": {
+        "type": "object",
+        "properties": {
+          "municipio": {
+            "type": "string"
+          },
+          "capital": {
+            "type": "string"
+          },
+          "parroquias": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "StateOutputSchema": {
+        "type": "object",
+        "properties": {
+          "nombre_estado": {
+            "type": "string"
+          },
+          "capital_estado": {
+            "tpye": "string"
+          },
+          "municipios": {
+            "type": "object",
+            "$ref": "#/components/schemas/municipio"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "state": {
+        "description": "state object to add or update",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/state"
+            }
+          }
+        }
+      }
+    }
+  }
+}

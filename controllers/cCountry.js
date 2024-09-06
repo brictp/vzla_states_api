@@ -1,13 +1,19 @@
 import { mCountry } from "../models/mCountry.js";
 import { Helper } from "../middlewares/helper.js";
+import { ErrorHandler } from "../middlewares/eHandler.js";
 
 export class cCountry {
   static async getAll(req, res) {
     try {
       const data = await mCountry.getAllStates();
+
+      if (!data || data.length === 0) {
+        return ErrorHandler.error404(err, req, res);
+      }
+
       res.json(data);
     } catch (err) {
-      console.log(err);
+      ErrorHandler.error500(err, req, res);
     }
   }
 
@@ -15,52 +21,61 @@ export class cCountry {
     let name = req.params.stateName;
 
     name = Helper.capitalizeName(name);
-    
+
     try {
       let data = await mCountry.getState(name);
-      //console.log(name)
 
-      if (data.length === 0)
-        return res.status(404).json({ error: "No encontrado" });
+      if (data.length === 0 || !data)
+        return ErrorHandler.error404(err, req, res);
 
       return res.json(data);
     } catch (err) {
-      res.json({ error: err.message });
+      ErrorHandler.error500(err, req, res);
     }
   }
 
   static async getArrayStates(req, res) {
     try {
       const data = await mCountry.getArrayStates();
+
+      if (!data || data.length === 0) {
+        return ErrorHandler.error404(err, req, res);
+      }
+
       res.json(data);
     } catch (err) {
-      res.json({ error: err.message });
+      ErrorHandler.error500(err, req, res);
     }
   }
 
   static async getAllMunicipalities(req, res) {
     try {
       let data = await mCountry.getAllMunucipalities();
+
+      if (!data || data.length === 0) {
+        return ErrorHandler.error404(err, req, res);
+      }
+
       res.json(data);
     } catch (err) {
-      res.json({ error: err.message });
+      ErrorHandler.error500(err, req, res);
     }
   }
 
   static async getMunicipality(req, res) {
     let name = req.params.stateName;
-      
+
     name = Helper.capitalizeName(name);
-    console.log(name)
-    
+
     try {
       let data = await mCountry.getMunicipality(name);
 
-      if (!data) return res.status(404).json({ error: "No encontrado" });
+      if (!data || data.length === 0)
+        return ErrorHandler.error404(err, req, res);
 
       res.json(data);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      ErrorHandler.error500(err, req, res);
     }
   }
 
@@ -70,16 +85,15 @@ export class cCountry {
     stateName = Helper.capitalizeName(stateName);
     municipalityName = Helper.capitalizeName(municipalityName);
 
-    console.log(stateName, "asdas", municipalityName)
-    
     try {
       let data = await mCountry.getDistrict(stateName, municipalityName);
+
+      if (!data || data.length === 0)
+        return ErrorHandler.error404(err, req, res);
+
       res.json(data);
     } catch (err) {
-      if (err.message === "res is not defined")
-        return res.status(404).json({ error: "No encontrado" });
-
-      res.status(400).json({ error: err.message });
+      ErrorHandler.error500(err, req, res);
     }
   }
 
