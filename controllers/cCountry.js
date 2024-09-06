@@ -9,9 +9,9 @@ export class cCountry {
 
       if (!data || data.length === 0) {
         return ErrorHandler.error404(err, req, res);
+      } else {
+        return res.json(data);
       }
-
-      res.json(data);
     } catch (err) {
       ErrorHandler.error500(err, req, res);
     }
@@ -25,10 +25,12 @@ export class cCountry {
     try {
       let data = await mCountry.getState(name);
 
-      if (data.length === 0 || !data)
-        return ErrorHandler.error404(err, req, res);
-
-      return res.json(data);
+      if (data.length === 0) {
+        ErrorHandler.error404(req, res);
+      } else {
+        res.json(data);
+        console.log(data.length);
+      }
     } catch (err) {
       ErrorHandler.error500(err, req, res);
     }
@@ -40,9 +42,9 @@ export class cCountry {
 
       if (!data || data.length === 0) {
         return ErrorHandler.error404(err, req, res);
+      } else {
+        return res.json(data);
       }
-
-      res.json(data);
     } catch (err) {
       ErrorHandler.error500(err, req, res);
     }
@@ -70,10 +72,10 @@ export class cCountry {
     try {
       let data = await mCountry.getMunicipality(name);
 
-      if (!data || data.length === 0)
-        return ErrorHandler.error404(err, req, res);
-
-      res.json(data);
+      if (!data || data.length === 0) ErrorHandler.error404(req, res);
+      else {
+        res.json(data);
+      }
     } catch (err) {
       ErrorHandler.error500(err, req, res);
     }
@@ -86,12 +88,19 @@ export class cCountry {
     municipalityName = Helper.capitalizeName(municipalityName);
 
     try {
-      let data = await mCountry.getDistrict(stateName, municipalityName);
+      let data = await mCountry.getState(stateName);
 
-      if (!data || data.length === 0)
-        return ErrorHandler.error404(err, req, res);
-
-      res.json(data);
+      if (!data || data.length === 0) {
+        ErrorHandler.error404(req, res);
+      } else {
+        let muni = data[0].municipios.find(
+          (el) => el.municipio === municipalityName
+        );
+        if (!muni || muni.length === 0) ErrorHandler.error404(req, res);
+        else {
+          res.json(muni.parroquias);
+        }
+      }
     } catch (err) {
       ErrorHandler.error500(err, req, res);
     }

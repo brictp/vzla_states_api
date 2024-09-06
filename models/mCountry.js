@@ -10,7 +10,6 @@ export class mCountry extends Country {
         {},
         { _id: 0, __v: 0, ["municipios._id"]: 0, ID: 0 }
       );
-
       return country;
     } catch (err) {
       throw { status: 500, error: err.message };
@@ -23,10 +22,10 @@ export class mCountry extends Country {
         { nombre_estado: name },
         { _id: 0, __v: 0, ["municipios._id"]: 0, ID: 0 }
       );
-
       return data;
     } catch (err) {
-      throw { status: 500, error: err.message };
+
+      throw { status: 500, error: err.message, message: "No encontrado" };
     }
   }
 
@@ -76,19 +75,6 @@ export class mCountry extends Country {
     }
   }
 
-  static async getDistrict(stateName, municipalityName) {
-    try {
-      let state = await this.getState(stateName);
-
-      let muni = state[0].municipios.find(
-        (el) => el.municipio === municipalityName
-      );
-
-      return muni.parroquias;
-    } catch (err) {
-      throw { status: 500, error: err.message };
-    }
-  }
   static async create(data) {
     try {
       let newState = new Country(data);
