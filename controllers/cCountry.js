@@ -3,6 +3,7 @@ import { Helper } from "../middlewares/helper.js";
 import { ErrorHandler } from "../middlewares/eHandler.js";
 
 export class cCountry {
+  //? Obtener todos los estados
   static async getAll(req, res) {
     try {
       const data = await mCountry.getAllStates();
@@ -17,6 +18,7 @@ export class cCountry {
     }
   }
 
+  //? Obtener un estado
   static async getState(req, res) {
     let name = req.params.stateName;
 
@@ -36,6 +38,7 @@ export class cCountry {
     }
   }
 
+  //? Obtener un array de todos los estados
   static async getArrayStates(req, res) {
     try {
       const data = await mCountry.getArrayStates();
@@ -50,6 +53,7 @@ export class cCountry {
     }
   }
 
+  //? Obtener un array de todos los municipios
   static async getAllMunicipalities(req, res) {
     try {
       let data = await mCountry.getAllMunucipalities();
@@ -64,6 +68,7 @@ export class cCountry {
     }
   }
 
+  //? Obtener una lista municipios de un estado
   static async getMunicipality(req, res) {
     let name = req.params.stateName;
 
@@ -81,6 +86,7 @@ export class cCountry {
     }
   }
 
+  //? Obtener un array de las parroquias determinadas
   static async getDistricts(req, res) {
     let { stateName, municipalityName } = req.params;
 
@@ -106,6 +112,7 @@ export class cCountry {
     }
   }
 
+  //* Agregar nuevo estado
   static async create(req, res) {
     let data = req.body;
     try {
@@ -116,7 +123,40 @@ export class cCountry {
     }
   }
 
-  static async update(req, res) {}
+  //* Agregar un nuevo municipio
+  static async createMunicipality(req, res) {
+    let data = req.body;
+    let { stateName } = req.params;
+    let nombre = Helper.capitalizeName(stateName);
+    try {
+      const newData = await mCountry.createMunicipality(nombre, data);
+      res.json(newData);
+    } catch (err) {
+      ErrorHandler.error500(err, req, res);
+    }
+  }
 
-  static async delete(req, res) {}
+  //* Actualizar estado completo
+  static async update(req, res) {
+    let data = req.body;
+    let { id } = req.params;
+
+    try {
+      let updatedState = await mCountry.updatedState;
+      return updatedState;
+    } catch (err) {
+      ErrorHandler.error500(err, req, res);
+    }
+  }
+
+  //! Eliminar un estado
+  static async delete(req, res) {
+    let { id } = req.params;
+    try {
+      let response = await mCountry.deleteState(id);
+      res.json({ ok: "Dato Eliminado" });
+    } catch (err) {
+      ErrorHandler.error500(err, req, res);
+    }
+  }
 }

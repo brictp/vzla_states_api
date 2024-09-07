@@ -4,6 +4,7 @@ import countrySchema from "../schemas/sCountry.js";
 const Country = mongoose.model("State", countrySchema);
 
 export class mCountry extends Country {
+  //? Obtener todos los estados
   static async getAllStates() {
     try {
       let country = await Country.find(
@@ -16,6 +17,7 @@ export class mCountry extends Country {
     }
   }
 
+  //? Obtener un solo estado
   static async getState(name) {
     try {
       let data = await Country.find(
@@ -24,11 +26,11 @@ export class mCountry extends Country {
       );
       return data;
     } catch (err) {
-
       throw { status: 500, error: err.message, message: "No encontrado" };
     }
   }
 
+  //? Obtener un arrar de todos los estados
   static async getArrayStates() {
     try {
       let data = await Country.find({}, { nombre_estado: 1, _id: 0 });
@@ -42,6 +44,7 @@ export class mCountry extends Country {
     }
   }
 
+  //? Obtener un array de todos los municipios
   static async getAllMunucipalities() {
     try {
       let data = await Country.find(
@@ -59,6 +62,7 @@ export class mCountry extends Country {
     }
   }
 
+  //? Obtener una lista municipios de un estado
   static async getMunicipality(name) {
     try {
       let municipality = await Country.find(
@@ -75,16 +79,34 @@ export class mCountry extends Country {
     }
   }
 
+  //* Agregar nuevo estado
   static async create(data) {
     try {
       let newState = new Country(data);
       await newState.save();
+      return { ok: "Estado agregado" };
     } catch (err) {
       throw { status: 500, error: err.message };
     }
   }
 
-  static async update(id, data) {
+  //* Agregar un nuevo municipio
+  static async createMunicipality(nombre, data) {
+    try {
+      await Country.findOneAndUpdate(
+        {
+          nombre_estado: nombre,
+        },
+        { $push: { municipios: data } }
+      );
+      return { ok: "municipio agregado" };
+    } catch (err) {
+      throw { status: 500, error: err.message };
+    }
+  }
+
+  //* Actualizar estado completo
+  static async updateState(id, data) {
     try {
       await Country.findByIdAndUpdate(id, data);
       res.json({ ok: "objeto actualizado" });
@@ -93,10 +115,11 @@ export class mCountry extends Country {
     }
   }
 
-  static async delete(req, res) {
-    let id = req.params.id;
+  //! Eliminar un estado
+  static async deleteState(id) {
     try {
-      await Country.findOneAndDelete({ ID: id });
+      let dataDeleted = await Country.findByIdAndDelete(id);
+      return dataDeleted;
     } catch (err) {
       throw { status: 500, error: err.message };
     }

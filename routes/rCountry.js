@@ -12,7 +12,8 @@ routes.get("/:stateName/municipios", cCountry.getMunicipality);
 routes.get("/:stateName/:municipalityName", cCountry.getDistricts);
 
 routes.post("/", cCountry.create);
-routes.put("/:id");
-routes.delete("/:id");
+routes.put("/:id", cCountry.update);
+routes.post("/:stateName", cCountry.createMunicipality);
+routes.delete("/:id", cCountry.delete);
 
 export default routes;
